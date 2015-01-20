@@ -13,13 +13,14 @@ public class KotH {
         int max = 0;
         int win = -1;
         for (int i = 0; i < scores.length; i++) {
-            System.out.println(scores[i]);
             if (scores[i] > max) {
                 win = i;
                 max = scores[i];
             }
         }
         System.out.println("The winner is player " + win + ", with a score of " + max + "!");
+        System.out.println();
+        System.out.println(contest);
     }
 
     Class<?> f() {

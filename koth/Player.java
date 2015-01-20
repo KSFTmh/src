@@ -10,7 +10,6 @@ public abstract class Player {
 
     private String name;
     private String author;
-    private String language;
     private String fileName;
 
     abstract int process(int round, int players, String[] args);
@@ -20,7 +19,7 @@ public abstract class Player {
         BufferedReader r = new BufferedReader(new FileReader("programs.txt"));
         r.lines().forEachOrdered(line -> {
             String[] info = line.split(", ");
-            String type = info[2].trim().replaceFirst(".*\\.", "");
+            String type = info[0].trim().replaceFirst(".*\\.", "");
             Player player;
             switch (type) {
                 case "java":
@@ -35,9 +34,9 @@ public abstract class Player {
                 default:
                     throw new RuntimeException("Invalid language: " + type);
             }
-            player.name = info[0].trim();
+            player.name = info[0].trim().replaceFirst("\\..*", "");
             player.author = info[1].trim();
-            player.fileName = info[2].trim();
+            player.fileName = info[0].trim();
             players.add(player);
         });
         return players.toArray(new Player[players.size()]);
@@ -49,10 +48,6 @@ public abstract class Player {
 
     public String getAuthor() {
         return author;
-    }
-
-    public String getLanguage() {
-        return language;
     }
 
     public String getFileName() {

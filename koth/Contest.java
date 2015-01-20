@@ -3,6 +3,7 @@ package koth;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -30,16 +31,6 @@ class Contest {
                 results[round][player] = x;
             }
         }
-
-        for (int[] r : results) {
-            for (int p : r) {
-                System.out.print(p);
-                System.out.print(", ");
-            }
-            System.out.println();
-        }
-
-        System.exit(0);
         return scores();
     }
 
@@ -60,5 +51,17 @@ class Contest {
             scores[thisPlayer] = (int) score;
         }
         return scores;
+    }
+
+    @Override
+    public String toString() {
+        String[] outputs = new String[players.length];
+        for (int i = 0; i < players.length; i++) {
+            outputs[i] = players[i].getName() + " - " + scores()[i];
+        }
+        Arrays.sort(outputs, (s, t)
+                    -> Integer.parseInt(t.replaceAll(".*- ", ""))
+                       - Integer.parseInt(s.replaceAll(".*- ", "")));
+        return String.join("\n", outputs);
     }
 }
