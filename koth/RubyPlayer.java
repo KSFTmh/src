@@ -1,6 +1,5 @@
 package koth;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import org.jruby.embed.ScriptingContainer;
@@ -18,7 +17,9 @@ class RubyPlayer extends Player {
             Object o = container.runScriptlet(new FileReader("src/Players/" + getFileName()), getFileName());
             return container.callMethod(o, "choose", rubyArgs, Integer.class);
         } catch (FileNotFoundException ex) {
-            ex.printStackTrace();
+            System.err.println(ex.getClass().getName() + ": " + ex.getMessage());
+            return 1;
+        } catch (Exception ex) {
             return 1;
         }
     }

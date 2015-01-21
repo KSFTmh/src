@@ -2,6 +2,7 @@ package koth;
 
 import java.util.Arrays;
 import org.python.core.PyArray;
+import org.python.core.PyException;
 import org.python.core.PyInteger;
 import org.python.core.PyObject;
 import org.python.core.PyString;
@@ -31,8 +32,10 @@ class PythonPlayer extends Player {
             );
             int num = result.asInt();
             return num;
+        } catch (PyException ex) {
+            System.err.println(ex.getClass().getName() + ": " + ex.getMessage());
+            return 1;
         } catch (Exception ex) {
-            ex.printStackTrace();
             return 1;
         }
     }
