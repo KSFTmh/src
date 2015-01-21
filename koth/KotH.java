@@ -18,21 +18,8 @@ public class KotH {
                 max = scores[i];
             }
         }
-        System.out.println("The winner is player " + win + ", with a score of " + max + "!");
+        System.out.println("The winner is player " + (win + 1) + ", with a score of " + max + "!");
         System.out.println();
         System.out.println(contest);
-    }
-
-    Class<?> f() {
-        return String.class;
-    }
-
-    void g(Class<String> c) {
-
-    }
-
-    void h() {
-        int x = 5, y;
-        y = -~x;
     }
 }
