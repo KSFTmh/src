@@ -2,6 +2,10 @@ package koth;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.Arrays;
+import org.jruby.Ruby;
+import org.jruby.RubyArray;
+import org.jruby.RubyString;
 import org.jruby.embed.ScriptingContainer;
 
 class RubyPlayer extends Player {
@@ -11,7 +15,12 @@ class RubyPlayer extends Player {
         Object[] rubyArgs = new Object[3];
         rubyArgs[0] = round;
         rubyArgs[1] = players;
-        rubyArgs[2] = args;
+        Ruby ruby = Ruby.getGlobalRuntime();
+        RubyArray array = RubyArray.newArray(ruby);
+        for (String s : args) {
+            array.add(RubyString.newString(ruby, s));
+        }
+        rubyArgs[2] = array;
         try {
             ScriptingContainer container = new ScriptingContainer();
             Object o = container.runScriptlet(new FileReader("src/Players/" + getFileName()), getFileName());
