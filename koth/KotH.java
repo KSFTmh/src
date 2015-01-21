@@ -1,5 +1,6 @@
 package koth;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 /**
@@ -7,7 +8,7 @@ import java.io.IOException;
  */
 public class KotH {
 
-    public static void main(String[] args) throws IOException, ReflectiveOperationException {
+    public static void main(String[] args) throws FileNotFoundException {
         Contest contest = new Contest();
         double[] scores = contest.run();
         double max = 0;
