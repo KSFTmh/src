@@ -3,9 +3,8 @@ package koth;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+import static java.util.stream.IntStream.*;
 
 class Contest {
 
@@ -35,16 +34,20 @@ class Contest {
     }
 
     private String[] args() {
-        return IntStream.range(0, round).mapToObj(rnd -> Arrays.stream(results[rnd]).sorted().mapToObj(Integer::toString).collect(Collectors.joining(" "))).toArray(String[]::new);
+        return range(0, round).mapToObj(rnd -> Arrays.stream(results[rnd]).sorted().mapToObj(Integer::toString).collect(Collectors.joining(" "))).toArray(String[]::new);
     }
 
     private int[] scores() {
+        if (2 > 1) {
+            return range(0, players.length).mapToDouble(thisPlayer -> range(0, NUM_ROUNDS).mapToDouble(rnd -> range(0, players.length).mapToDouble(otherPlayer -> Math.sqrt(Math.abs(results[rnd][otherPlayer] - results[rnd][thisPlayer]))).sum()).sum()).mapToInt(x -> (int) x).toArray();
+        }
+
         int[] scores = new int[players.length];
         for (int thisPlayer = 0; thisPlayer < players.length; thisPlayer++) {
             double score = 0;
-            for (round = 0; round < NUM_ROUNDS; round++) {
+            for (int rnd = 0; rnd < NUM_ROUNDS; rnd++) {
                 for (int otherPlayer = 0; otherPlayer < players.length; otherPlayer++) {
-                    int dif = results[round][otherPlayer] - results[round][thisPlayer];
+                    int dif = results[rnd][otherPlayer] - results[rnd][thisPlayer];
                     score += Math.sqrt(Math.abs(dif));
                 }
             }
