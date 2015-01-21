@@ -19,7 +19,7 @@ class Contest {
         results = new int[NUM_ROUNDS][players.length];
     }
 
-    public int[] run() throws IOException, ReflectiveOperationException {
+    public double[] run() throws IOException {
         for (round = 0; round < NUM_ROUNDS; round++) {
             String[] args = args();
             for (int player = 0; player < players.length; player++) {
@@ -37,12 +37,12 @@ class Contest {
         return range(0, round).mapToObj(rnd -> Arrays.stream(results[rnd]).sorted().mapToObj(Integer::toString).collect(Collectors.joining(" "))).toArray(String[]::new);
     }
 
-    private int[] scores() {
+    private double[] scores() {
         if (2 > 1) {
-            return range(0, players.length).mapToDouble(thisPlayer -> range(0, NUM_ROUNDS).mapToDouble(rnd -> range(0, players.length).mapToDouble(otherPlayer -> Math.sqrt(Math.abs(results[rnd][otherPlayer] - results[rnd][thisPlayer]))).sum()).sum()).mapToInt(x -> (int) x).toArray();
+            return range(0, players.length).mapToDouble(thisPlayer -> range(0, NUM_ROUNDS).mapToDouble(rnd -> range(0, players.length).mapToDouble(otherPlayer -> Math.sqrt(Math.abs(results[rnd][otherPlayer] - results[rnd][thisPlayer]))).sum()).sum()).toArray();
         }
 
-        int[] scores = new int[players.length];
+        double[] scores = new double[players.length];
         for (int thisPlayer = 0; thisPlayer < players.length; thisPlayer++) {
             double score = 0;
             for (int rnd = 0; rnd < NUM_ROUNDS; rnd++) {
@@ -60,11 +60,16 @@ class Contest {
     public String toString() {
         String[] outputs = new String[players.length];
         for (int i = 0; i < players.length; i++) {
-            outputs[i] = players[i].getName() + " - " + scores()[i];
+            outputs[i] = players[i].getName() + " - " + (int) scores()[i];
         }
         Arrays.sort(outputs, (s, t)
-                    -> Integer.parseInt(t.replaceAll(".*- ", ""))
-                       - Integer.parseInt(s.replaceAll(".*- ", "")));
+                    -> (int) (Double.parseDouble(t.replaceAll(".*- ", ""))
+                              - Double.parseDouble(s.replaceAll(".*- ", ""))));
         return String.join("\n", outputs);
+    }
+
+    public Player[] players() {
+        return Arrays.copyOf(players, players.length);
+
     }
 }

@@ -9,8 +9,8 @@ public class KotH {
 
     public static void main(String[] args) throws IOException, ReflectiveOperationException {
         Contest contest = new Contest();
-        int[] scores = contest.run();
-        int max = 0;
+        double[] scores = contest.run();
+        double max = 0;
         int win = -1;
         for (int i = 0; i < scores.length; i++) {
             if (scores[i] > max) {
@@ -18,7 +18,8 @@ public class KotH {
                 max = scores[i];
             }
         }
-        System.out.println("The winner is player " + (win + 1) + ", with a score of " + max + "!");
+        Player[] players = contest.players();
+        System.out.println("The winner is " + players[win].getName() + ", by " + players[win].getAuthor() + ", with a score of " + (int) max + "!");
         System.out.println();
         System.out.println(contest);
     }
