@@ -23,8 +23,8 @@ class Contest {
             String[] args = args();
             for (int player = 0; player < players.length; player++) {
                 int x = players[player].process(round, players.length, args);
-                if (x < 1 || x > 999) {
-                    x = 1;
+                if (x < 0 || x > 999) {
+                    x = 0;
                 }
                 results[round][player] = x;
             }
@@ -42,7 +42,7 @@ class Contest {
         return range(0, players.length).mapToDouble(
                 thisPlayer -> range(0, NUM_ROUNDS).mapToDouble(
                         rnd -> range(0, players.length).mapToDouble(
-                                otherPlayer -> Math.sqrt(Math.abs(results[rnd][otherPlayer] - results[rnd][thisPlayer]))
+                                otherPlayer -> Math.sqrt(Math.abs(results[rnd][otherPlayer] - results[rnd][thisPlayer])<500?Math.abs(results[rnd][otherPlayer] - results[rnd][thisPlayer]):1000-Math.abs(results[rnd][otherPlayer] - results[rnd][thisPlayer]))
                         ).sum()
                 ).sum()
         ).toArray();
